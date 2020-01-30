@@ -1,10 +1,11 @@
-name: Java CI
+name: Build and test
 
 # Run workflow on commits to the `master` branch
 on: [push, pull_request]
 
 jobs:
   build:
+    name: Build and test
     runs-on: ubuntu-latest
 
     steps:
