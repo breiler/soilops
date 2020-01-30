@@ -31,4 +31,4 @@ jobs:
           title: "Development Build"
           files: |
             LICENSE
-            taget/*.jar
+            target/*.jar
