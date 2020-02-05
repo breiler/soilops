@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      SoilOps
+    </ion-title>
+
+    <ion-buttons slot="primary" *ngIf="user">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="contact"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-round-down"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="ion-padding" *ngIf="!user">
+    <h1>Welcome to SoilOps</h1>
+    <p>Here you'll be able to manage your sensors and receive recommendations for your plants.</p>
+    <ion-button (click)="login()">Login</ion-button>
+  </div>
+
+  <ion-list *ngIf="user">
+    <ion-item *ngFor="let thing of things">
+      <ion-img slot="start" src="../../assets/plants/019-botanic.png" class="plant-image ion-hide-sm-down"></ion-img>
+      <ion-label *ngIf="thing.latestObservation">
+        <inline-editor [(value)]="thing.name"></inline-editor>
+        <h3>{{formatDateTime(thing.latestObservation.created)}}</h3>
+        <ion-chip>
+          <ion-icon name="sunny"></ion-icon>
+          <ion-label>{{thing.latestObservation.light}}%</ion-label>
+        </ion-chip>
+        <ion-chip>
+          <ion-icon name="water"></ion-icon>
+          <ion-label>{{thing.latestObservation.moisture}}%</ion-label>
+        </ion-chip>
+        <ion-chip>
+          <ion-icon name="thermometer"></ion-icon>
+          <ion-label>{{thing.latestObservation.temperature}}°C</ion-label>
+        </ion-chip>
+      </ion-label>
+      <ion-label *ngIf="!thing.latestObservation">
+        <h2>
+          <ion-item>
+            <ion-label placeholder="User Bio"> {{thing.name}} </ion-label>
+          </ion-item>
+        </h2>
+        <ion-item>
+          <ion-label><strong>Name</strong></ion-label>
+          <ion-input type="text" [(ngModel)]="thing.name"> .
+          </ion-input>
+        </ion-item>
+        <p>
+          Waiting for data...
+        </p>
+      </ion-label>
+      <ion-button shape="round" color="light" (click)="fetchThingToken(thing)">
+        <ion-icon name="key"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

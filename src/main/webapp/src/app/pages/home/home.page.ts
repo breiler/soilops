@@ -7,7 +7,7 @@ import {ThingsService} from "../../service/things/things.service";
 import {Thing} from "../../model/thing";
 import * as moment from 'moment';
 import {WebsocketService} from "../../service/websocket/websocket.service";
-import {WebsocketUtils} from "../../service/websocket/websocket-utils";
+import {TokenPage} from "../token/token.page";
 
 @Component({
   selector: 'app-home',
@@ -39,7 +39,25 @@ export class HomePage {
     this.authService.logout();
   }
 
-  formatDateTime(dateTime:any) {
+  async fetchThingToken(thing: Thing) {
+    const modal = await this.modalController.create({
+      component: TokenPage,
+      componentProps: {
+        thing: thing
+      }
+    });
+    return await modal.present();
+  }
+
+  formatDateTime(dateTime: any) {
     return moment(dateTime).fromNow();
+  }
+
+  doRefresh(event) {
+    this.thingsService.getThings().subscribe(() => {
+      setTimeout(() => {
+        event.target.complete();
+      }, 1000);
+    });
   }
 }

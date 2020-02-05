@@ -1,12 +1,13 @@
 package com.tietoevry.soilops.controller;
 
-import com.tietoevry.soilops.dto.*;
+import com.tietoevry.soilops.dto.JwtResponse;
+import com.tietoevry.soilops.dto.ObservationResponse;
+import com.tietoevry.soilops.dto.ThingRequest;
+import com.tietoevry.soilops.dto.ThingResponse;
 import com.tietoevry.soilops.model.Observation;
 import com.tietoevry.soilops.model.Roles;
 import com.tietoevry.soilops.model.Thing;
-import com.tietoevry.soilops.model.UserDetails;
 import com.tietoevry.soilops.service.JwtTokenService;
-import com.tietoevry.soilops.service.JwtUserDetailsService;
 import com.tietoevry.soilops.service.ObservationService;
 import com.tietoevry.soilops.service.ThingService;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,13 +30,15 @@ public class ThingController {
 
     private final JwtTokenService jwtTokenService;
     private final ObservationService observationService;
-    private ThingService thingService;
+    private final ThingService thingService;
+    private final ModelMapper modelMapper;
 
 
     public ThingController(ThingService thingService, JwtTokenService jwtTokenService, ObservationService observationService) {
         this.thingService = thingService;
         this.jwtTokenService = jwtTokenService;
         this.observationService = observationService;
+        this.modelMapper = new ModelMapper();
     }
 
     @RolesAllowed({Roles.USER})
@@ -45,15 +49,8 @@ public class ThingController {
                     Principal principal) {
 
         List<Thing> things = thingService.getThings(principal.getName());
-        ModelMapper modelMapper = new ModelMapper();
         List<ThingResponse> mappedThings = things.stream()
-                .map(t -> {
-                    ThingResponse thingResponse = modelMapper.map(t, ThingResponse.class);
-                    t.getObservations().stream().findFirst().ifPresent(o -> {
-                        thingResponse.setLatestObservation(modelMapper.map(o, ObservationResponse.class));
-                    });
-                    return thingResponse;
-                })
+                .map(this::mapThing)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(mappedThings);
     }
@@ -70,7 +67,7 @@ public class ThingController {
         ModelMapper modelMapper = new ModelMapper();
         Thing thing = modelMapper.map(thingDto, Thing.class);
         thing = thingService.create(principal.getName(), thingDto.getPlaceUuid(), thing);
-        return ResponseEntity.ok(modelMapper.map(thing, ThingResponse.class));
+        return ResponseEntity.ok(mapThing(thing));
     }
 
     @RolesAllowed({Roles.USER})
@@ -108,7 +105,16 @@ public class ThingController {
             @PathVariable
                     String uuid) {
         List<Observation> observations = observationService.findAll(principal.getName(), uuid);
-        ModelMapper modelMapper = new ModelMapper();
         return ResponseEntity.ok(modelMapper.map(observations.get(0), ObservationResponse.class));
+    }
+
+
+    private ThingResponse mapThing(Thing thing) {
+        ThingResponse thingResponse = modelMapper.map(thing, ThingResponse.class);
+        thing.getObservations().stream()
+                .max(Comparator.comparing(Observation::getCreated))
+                .ifPresent(o -> thingResponse.setLatestObservation(modelMapper.map(o, ObservationResponse.class)));
+
+        return thingResponse;
     }
 }

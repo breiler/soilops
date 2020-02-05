@@ -33,7 +33,6 @@ public class Thing implements Serializable {
     private Place place;
 
     @OneToMany(mappedBy = "thing")
-    @OrderBy("created")
     private List<Observation> observations;
 
     @Column

@@ -45,4 +45,16 @@ export class ThingsService {
     return this.thingsSubject;
   }
 
+  public getThingToken(uuid: string): Observable<string> {
+    return this.httpClient.post(this.endpoint + "/" + uuid + "/token", null, {
+      headers: {
+        "Authorization": "Bearer " + this.user.token
+      }
+    })
+      .pipe(
+        map((res: any) => {
+          return res.token;
+        }));
+  }
+
 }

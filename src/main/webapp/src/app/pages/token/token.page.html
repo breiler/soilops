@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Generate device token</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p>A device token can be used in the API to report device status and data for the selected device "{{thing.name}}"</p>
+
+  <div>
+    <ion-button (click)="generate()">Generate</ion-button>
+  </div>
+
+  <ion-text color="primary" *ngIf="generatedToken">
+    <p class="token">{{generatedToken}}</p>
+  </ion-text>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" color="primary">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

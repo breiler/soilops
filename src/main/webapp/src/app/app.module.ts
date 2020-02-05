@@ -11,6 +11,7 @@ import {AppRoutingModule} from './app-routing.module';
 
 import {IonicStorageModule} from '@ionic/storage';
 import {HttpClientModule} from '@angular/common/http';
+import {InlineEditorComponent} from "./components/inline-editor/inline-editor.component";
 
 @NgModule({
   declarations: [AppComponent],
