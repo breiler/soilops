@@ -5,7 +5,6 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class PlaceDto implements Serializable {
-    private String uuid;
+public class PlaceRequest implements Serializable {
     private String name;
 }

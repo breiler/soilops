@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -25,5 +28,14 @@ public class Place implements Serializable {
 
     @Column
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
+
+    @Column
+    @NotNull
     private String name;
+
+    @ManyToOne
+    private User user;
+
 }

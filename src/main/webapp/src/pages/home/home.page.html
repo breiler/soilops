@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      SoilOps
+    </ion-title>
+
+    <ion-buttons slot="primary" *ngIf="user">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="contact"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding" *ngIf="!user">
+    <h1>Welcome to SoilOps</h1>
+    <p>Here you'll be able to manage your sensors and receive recommendations for your plants.</p>
+    <ion-button (click)="login()">Login</ion-button>
+  </div>
+
+  <ion-content fullscreen *ngIf="user">
+    <ion-list>
+      <ion-list-header>
+        Reported things
+      </ion-list-header>
+      <ion-item *ngFor="let thing of things">
+        <ion-img slot="start" src="../../assets/plants/019-botanic.png" class="plant-image"></ion-img>
+        <ion-label *ngIf="thing.latestObservation">
+          <h2>{{thing.name}}</h2>
+          <h3>{{formatDateTime(thing.latestObservation.created)}}</h3>
+          <ion-chip>
+            <ion-icon name="sunny"></ion-icon>
+            <ion-label>{{thing.latestObservation.light}}%</ion-label>
+          </ion-chip>
+          <ion-chip>
+            <ion-icon name="water"></ion-icon>
+            <ion-label>{{thing.latestObservation.moisture}}%</ion-label>
+          </ion-chip>
+          <ion-chip>
+            <ion-icon name="thermometer"></ion-icon>
+            <ion-label>{{thing.latestObservation.temperature}}°C</ion-label>
+          </ion-chip>
+        </ion-label>
+        <ion-label *ngIf="!thing.latestObservation">
+          <h2>{{thing.name}}</h2>
+          <p>
+            Waiting for data...
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+
+  </ion-content>
+</ion-content>

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,12 +21,20 @@ public class Thing implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Place place;
-
     @Column
     @NotNull
     private String uuid;
+
+    @Column
+    @NotNull
+    private LocalDateTime created;
+
+    @ManyToOne
+    private Place place;
+
+    @OneToMany(mappedBy = "thing")
+    @OrderBy("created")
+    private List<Observation> observations;
 
     @Column
     @NotNull
