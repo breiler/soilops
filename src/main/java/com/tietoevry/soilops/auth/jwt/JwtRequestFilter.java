@@ -1,15 +1,12 @@
-package com.tietoevry.soilops.filter;
+package com.tietoevry.soilops.auth.jwt;
 
-import com.tietoevry.soilops.service.JwtTokenService;
-import com.tietoevry.soilops.service.JwtUserDetailsService;
+import com.tietoevry.soilops.auth.jwt.JwtTokenService;
+import com.tietoevry.soilops.auth.jwt.JwtUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -20,12 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {

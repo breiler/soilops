@@ -8,11 +8,11 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 @Configuration
 @EnableWebSocket
-public class WebsocketConfig implements WebSocketConfigurer {
+public class WebSocketConfig implements WebSocketConfigurer {
 
     private final EventBusWebSocketHandler eventBusSocketHandler;
 
-    public WebsocketConfig(EventBusWebSocketHandler eventBusSocketHandler) {
+    public WebSocketConfig(EventBusWebSocketHandler eventBusSocketHandler) {
         this.eventBusSocketHandler = eventBusSocketHandler;
     }
 

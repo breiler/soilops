@@ -1,7 +1,7 @@
-package com.tietoevry.soilops.service;
+package com.tietoevry.soilops.auth.jwt;
 
 import com.tietoevry.soilops.model.User;
-import com.tietoevry.soilops.model.UserDetails;
+import com.tietoevry.soilops.auth.UserDetails;
 import com.tietoevry.soilops.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.GrantedAuthority;

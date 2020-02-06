@@ -2,7 +2,7 @@ package com.tietoevry.soilops.controller;
 
 import com.tietoevry.soilops.dto.AuthenticationRequest;
 import com.tietoevry.soilops.dto.JwtResponse;
-import com.tietoevry.soilops.service.JwtTokenService;
+import com.tietoevry.soilops.auth.jwt.JwtTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;

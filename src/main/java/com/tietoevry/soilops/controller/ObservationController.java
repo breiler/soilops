@@ -3,26 +3,19 @@ package com.tietoevry.soilops.controller;
 import com.tietoevry.soilops.dto.*;
 import com.tietoevry.soilops.model.Observation;
 import com.tietoevry.soilops.model.Roles;
-import com.tietoevry.soilops.model.Thing;
-import com.tietoevry.soilops.model.UserDetails;
-import com.tietoevry.soilops.service.JwtTokenService;
-import com.tietoevry.soilops.service.JwtUserDetailsService;
+import com.tietoevry.soilops.auth.UserDetails;
 import com.tietoevry.soilops.service.ObservationService;
-import com.tietoevry.soilops.service.ThingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Api(tags = "Observations", produces = "application/json")

@@ -7,7 +7,7 @@ import com.tietoevry.soilops.dto.ThingResponse;
 import com.tietoevry.soilops.model.Observation;
 import com.tietoevry.soilops.model.Roles;
 import com.tietoevry.soilops.model.Thing;
-import com.tietoevry.soilops.service.JwtTokenService;
+import com.tietoevry.soilops.auth.jwt.JwtTokenService;
 import com.tietoevry.soilops.service.ObservationService;
 import com.tietoevry.soilops.service.ThingService;
 import io.swagger.annotations.Api;

@@ -1,4 +1,4 @@
-package com.tietoevry.soilops.service;
+package com.tietoevry.soilops.auth.jwt;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -33,14 +33,6 @@ public class JwtTokenService {
                 .compact();
     }
 
-    /**
-     * Validates token
-     */
-    public Claims validateToken(String token) throws JwtException {
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-        return claimsJws.getBody();
-    }
-
     public String generateThingToken(String username, String uuid) {
         Instant instant = LocalDateTime.of(2100, 4, 1, 0, 0).atZone(ZoneId.systemDefault()).toInstant();
 
@@ -53,5 +45,13 @@ public class JwtTokenService {
                 .setExpiration(Date.from(instant))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
+    }
+
+    /**
+     * Validates token
+     */
+    public Claims validateToken(String token) throws JwtException {
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+        return claimsJws.getBody();
     }
 }

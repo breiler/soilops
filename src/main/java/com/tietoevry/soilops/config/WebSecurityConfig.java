@@ -1,13 +1,11 @@
 package com.tietoevry.soilops.config;
 
-import com.tietoevry.soilops.filter.JwtRequestFilter;
-import com.tietoevry.soilops.service.JwtUserDetailsService;
+import com.tietoevry.soilops.auth.jwt.JwtAuthenticationEntryPoint;
+import com.tietoevry.soilops.auth.jwt.JwtRequestFilter;
+import com.tietoevry.soilops.auth.jwt.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

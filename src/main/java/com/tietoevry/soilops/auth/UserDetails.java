@@ -1,4 +1,4 @@
-package com.tietoevry.soilops.model;
+package com.tietoevry.soilops.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
