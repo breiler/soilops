@@ -10,18 +10,29 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 
 import {IonicStorageModule} from '@ionic/storage';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {InlineEditorComponent} from "./components/inline-editor/inline-editor.component";
+import {HomePageModule} from "./pages/home/home.module";
+import {MainPageModule} from "./pages/main/main.module";
+import {LoginPageModule} from "./pages/login/login.module";
+import {AuthGuardService} from "./service/auth-guard/auth-guard.service";
+import {HttpInterceptorService} from "./service/http-interceptor/http-interceptor.service";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, InlineEditorComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    HttpClientModule, IonicStorageModule.forRoot()],
+    HttpClientModule, IonicStorageModule.forRoot(),
+    HomePageModule,
+    MainPageModule,
+    LoginPageModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+    AuthGuardService,
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

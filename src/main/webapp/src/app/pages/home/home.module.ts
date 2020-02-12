@@ -5,16 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import {LoginPageModule} from "../login/login.module";
 import {TokenPageModule} from "../token/token.module";
-import {InlineEditorComponent} from "../../components/inline-editor/inline-editor.component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageModule,
     TokenPageModule,
     RouterModule.forChild([
       {
@@ -23,6 +20,6 @@ import {InlineEditorComponent} from "../../components/inline-editor/inline-edito
       }
     ])
   ],
-  declarations: [HomePage, InlineEditorComponent]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

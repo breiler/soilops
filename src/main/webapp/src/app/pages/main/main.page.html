@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Soilops</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-round-down"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-card *ngFor="let device of devices">
+      <ion-card-header>
+        <ion-img src="../../assets/plants/019-botanic.png" class="plant-image ion-hide-sm-down"></ion-img>
+        <ion-card-title>
+          {{device.name}}
+        </ion-card-title>
+        <ion-card-subtitle *ngIf="!device.latestObservation">
+          Created: {{formatDateTime(device.created)}}
+        </ion-card-subtitle>
+        <ion-card-subtitle *ngIf="device.latestObservation">
+          Last reported: {{formatDateTime(device.latestObservation.created)}}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="device.latestObservation">
+
+        <ion-chip>
+          <ion-icon name="sunny"></ion-icon>
+          <ion-label>{{device.latestObservation.light}}%</ion-label>
+        </ion-chip>
+
+        <ion-chip>
+          <ion-icon name="water"></ion-icon>
+          <ion-label>{{device.latestObservation.moisture}}%</ion-label>
+        </ion-chip>
+
+        <ion-chip>
+          <ion-icon name="thermometer"></ion-icon>
+          <ion-label>{{device.latestObservation.temperature}}°C</ion-label>
+        </ion-chip>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>

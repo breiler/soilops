@@ -9,5 +9,5 @@ import java.util.List;
 
 @Service
 public interface ObservationRepository extends CrudRepository<Observation, Long> {
-    List<Observation> findAllByThingId(Long thingId, Sort sort);
+    List<Observation> findAllByDeviceId(Long deviceId, Sort sort);
 }

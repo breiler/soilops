@@ -23,17 +23,11 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div class="ion-padding" *ngIf="!user">
-    <h1>Welcome to SoilOps</h1>
-    <p>Here you'll be able to manage your sensors and receive recommendations for your plants.</p>
-    <ion-button (click)="login()">Login</ion-button>
-  </div>
-
-  <ion-list *ngIf="user">
+  <ion-list>
     <ion-item *ngFor="let thing of things">
       <ion-img slot="start" src="../../assets/plants/019-botanic.png" class="plant-image ion-hide-sm-down"></ion-img>
       <ion-label *ngIf="thing.latestObservation">
-        <inline-editor [(value)]="thing.name"></inline-editor>
+        <!--inline-editor [(value)]="thing.name"></inline-editor-->
         <h3>{{formatDateTime(thing.latestObservation.created)}}</h3>
         <ion-chip>
           <ion-icon name="sunny"></ion-icon>

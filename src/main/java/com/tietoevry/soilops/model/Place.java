@@ -28,8 +28,7 @@ public class Place implements Serializable {
 
     @Column
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
+    private LocalDateTime created;
 
     @Column
     @NotNull

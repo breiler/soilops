@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -32,7 +30,7 @@ public class Observation implements Serializable {
     private LocalDateTime created;
 
     @ManyToOne
-    private Thing thing;
+    private Device device;
 
     @Column
     @NotNull

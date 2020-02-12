@@ -3,53 +3,46 @@ import {HttpClient} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
 import {Observable, BehaviorSubject, Subject} from 'rxjs';
 
-import {Storage} from '@ionic/storage';
 import {User} from '../../model/user';
 import {AuthResponse} from "../../model/auth-response";
 import {AuthRequest} from "../../model/auth-request";
-import jwt_decode from "jwt-decode"
+import {JwtHelperService} from '@auth0/angular-jwt';
+import decode from 'jwt-decode';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private endpoint: string = '/api/authenticate';
+  private endpoint: string = '/api/auth/token';
   private userSubject: Subject<User> = new Subject<User>();
+  private tokenSubject: Subject<string> = new Subject<string>();
   private user: User;
+  private token: string;
+  private authenticatedSubject: BehaviorSubject<boolean>;
+  private authenticated: Observable<boolean>;
 
-  constructor(private  httpClient: HttpClient, private  storage: Storage) {
-    storage.get("user").then(user => {
-      this.user = user;
-      this.userSubject.next(user);
-    });
+  constructor(private  httpClient: HttpClient, private router: Router) {
+    this.authenticatedSubject = new BehaviorSubject<boolean>(false);
+    this.authenticated = this.authenticatedSubject.asObservable();
   }
 
-  public login(username: string, password: string): Observable<AuthResponse> {
-    let authRequest = new AuthRequest();
-    authRequest.username = username;
-    authRequest.password = password;
+  /**
+   * Check whether the token is expired and return true or false
+   */
+  public isAuthenticated(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    if (token !== null) {
+      this.authenticatedSubject.next(!new JwtHelperService().isTokenExpired(token));
+    } else {
+      this.httpClient.get(`${this.endpoint}`)
+        .subscribe((res: AuthResponse) => {
+          localStorage.setItem('token', res.token);
+          this.authenticatedSubject.next(!new JwtHelperService().isTokenExpired(res.token));
+          this.router.navigateByUrl("/");
+        });
+    }
 
-    return this.httpClient.post(`${this.endpoint}`, authRequest)
-      .pipe(
-        map((res: AuthResponse) => {
-          let parsedToken = jwt_decode(res.token);
-          this.user = new User();
-          this.user.token = res.token;
-          this.user.username = parsedToken.sub;
-          this.storage.set("user", this.user);
-          return this.user;
-        }),
-        tap((user: User) => {
-          this.userSubject.next(this.user);
-        }));
-  }
-
-  public logout() {
-    this.storage.remove("user");
-    this.userSubject.next(null);
-  }
-
-  public getSubject(): Subject<User> {
-    return this.userSubject;
+    return this.authenticated;
   }
 }

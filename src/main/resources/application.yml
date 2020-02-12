@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:soilops.db
+    driver-class-name: org.sqlite.JDBC
+
+  jpa:
+    database-platform: com.tietoevry.soilops.config.SQLiteDialect
+    hibernate.ddl-auto: none
+    show-sql: true
+    open-in-view: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: c03213601d7f62d0d382
+            client-secret: e21a3249e971c26371f3d2c32c373395c94d905a
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+          google:
+            client-id: 41362502913-agvvbfifu45f5om68do15n16nhr0dje3.apps.googleusercontent.com
+            client-secret: xbU0n0cvZa4biiXXPBCcbxpC
+            redirect-uri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+              -
+app:
+  security:
+    tokenSecret: MySecretToken
+    tokenTimeToLive: 864000000

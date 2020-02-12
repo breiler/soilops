@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from "@ionic/angular";
-import {Thing} from "../../model/thing";
-import {ThingsService} from "../../service/things/things.service";
+import {Device} from "../../model/device";
+import {DeviceService} from "../../service/device/device.service";
 
 @Component({
   selector: 'app-token',
@@ -10,9 +10,9 @@ import {ThingsService} from "../../service/things/things.service";
 })
 export class TokenPage implements OnInit {
   generatedToken: string;
-  thing: Thing;
+  device: Device;
 
-  constructor(public modalController: ModalController, private thingsService: ThingsService) { }
+  constructor(public modalController: ModalController, private thingsService: DeviceService) { }
 
   ngOnInit() {
   }
@@ -25,7 +25,7 @@ export class TokenPage implements OnInit {
 
   generate() {
     this.thingsService
-      .getThingToken(this.thing.uuid)
+      .getThingToken(this.device.uuid)
       .subscribe(token => this.generatedToken = token);
   }
 }

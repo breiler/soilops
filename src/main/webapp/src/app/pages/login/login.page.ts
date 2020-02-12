@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ModalController} from "@ionic/angular";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../service/auth/auth.service";
+import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -8,23 +9,13 @@ import {AuthService} from "../../service/auth/auth.service";
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  private token: string;
+  private href: string;
 
-  constructor(public modalController: ModalController, public authService: AuthService) {
+  constructor(private route: ActivatedRoute, private authService: AuthService, private router: Router, private platformLocation: PlatformLocation) {
   }
 
   ngOnInit() {
-  }
-
-  dismiss() {
-    this.modalController.dismiss({
-      'dismissed': true
-    });
-  }
-
-  login(form: any) {
-    this.authService.login(form.username, form.password)
-      .subscribe(user => {
-        this.dismiss();
-      });
+    this.href = this.platformLocation.href.replace(this.platformLocation.pathname, '');
   }
 }

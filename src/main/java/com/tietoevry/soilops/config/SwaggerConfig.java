@@ -1,10 +1,11 @@
 package com.tietoevry.soilops.config;
 
-import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -12,8 +13,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
-import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration
@@ -22,36 +23,47 @@ public class SwaggerConfig {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String DEFAULT_INCLUDE_PATTERN = "/api/.*";
 
+    private static final String SECURITY_REFERENCE_JWT = "JWT";
+    private static final String SECURITY_REFERENCE_OAUTH2 = "OAuth2";
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(getApiInfo())
-                .securityContexts(Lists.newArrayList(securityContext()))
-                .securitySchemes(Lists.newArrayList(apiKey()))
+                .useDefaultResponseMessages(false)
+                .useDefaultResponseMessages(false)
+                .globalResponseMessage(RequestMethod.GET,
+                        newArrayList(new ResponseMessageBuilder()
+                                        .code(500)
+                                        .message("Internal server error, an unexpected error has occurred on the server.")
+                                        .build(),
+                                new ResponseMessageBuilder()
+                                        .code(403)
+                                        .message("Forbidden, the user doesn't have the proper user rights to access the resource.")
+                                        .build()))
+                .securityContexts(newArrayList(securityContext()))
+                .securitySchemes(newArrayList(jwtApiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.tietoevry.soilops"))
                 .paths(regex("/.*"))
                 .build();
     }
+    
 
-    private ApiKey apiKey() {
-        return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
+    private ApiKey jwtApiKey() {
+        return new ApiKey(SECURITY_REFERENCE_JWT, AUTHORIZATION_HEADER, "header");
     }
+
 
     private SecurityContext securityContext() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+
         return SecurityContext.builder()
-                .securityReferences(defaultAuth())
+                .securityReferences(newArrayList(
+                        new SecurityReference(SECURITY_REFERENCE_JWT, new AuthorizationScope[]{authorizationScope}),
+                        new SecurityReference(SECURITY_REFERENCE_OAUTH2, new AuthorizationScope[]{authorizationScope})))
                 .forPaths(PathSelectors.regex(DEFAULT_INCLUDE_PATTERN))
                 .build();
-    }
-
-    List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope
-                = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList(
-                new SecurityReference("JWT", authorizationScopes));
     }
 
     private ApiInfo getApiInfo() {

@@ -1,5 +1,5 @@
 export class Observation {
-  thingUuid: string;
+  deviceUuid: string;
   temperature: number;
   moisture: number;
   light: number;

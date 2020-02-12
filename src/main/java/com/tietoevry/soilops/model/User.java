@@ -1,5 +1,6 @@
 package com.tietoevry.soilops.model;
 
+import com.tietoevry.soilops.security.oauth2.provider.AuthProviderEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,9 @@ public class User implements Serializable {
     @OneToMany
     private List<Place> places;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column
     @NotNull
     private String username;
@@ -30,4 +34,15 @@ public class User implements Serializable {
     @Column
     @NotNull
     private String password;
+
+    @Column
+    @NotNull
+    private String email;
+
+    @Column
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProviderEnum provider;
+
+    private String imageUrl;
 }
