@@ -2,16 +2,18 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import {TokenPage} from './token.page';
+import {BindPageRoutingModule} from './bind-routing.module';
+import {BindPage} from './bind.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    BindPageRoutingModule
   ],
-  declarations: [TokenPage],
-  entryComponents: [TokenPage]
+  declarations: [BindPage],
+  entryComponents: [BindPage]
 })
-export class TokenPageModule {
+export class BindPageModule {
 }

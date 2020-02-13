@@ -12,7 +12,8 @@ create unique index idx_user_username on user (username);
 
 create table device (
     id integer primary key autoincrement,
-    place_id integer not null,
+    user_id integer not null,
+    place_id integer,
     uuid varchar(255) not null,
     key varchar(255),
     created timestamp not null,

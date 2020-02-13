@@ -61,7 +61,7 @@ public class DeviceController {
 
         ModelMapper modelMapper = new ModelMapper();
         Device device = modelMapper.map(deviceDto, Device.class);
-        device = deviceService.create(principal.getName(), deviceDto.getPlaceUuid(), device);
+        device = deviceService.create(principal.getName(), device);
         return ResponseEntity.ok(mapDevice(device));
     }
 

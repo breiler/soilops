@@ -17,6 +17,7 @@ import {MainPageModule} from "./pages/main/main.module";
 import {LoginPageModule} from "./pages/login/login.module";
 import {AuthGuardService} from "./service/auth-guard/auth-guard.service";
 import {HttpInterceptorService} from "./service/http-interceptor/http-interceptor.service";
+import {BindPageModule} from "./pages/bind/bind.module";
 
 @NgModule({
   declarations: [AppComponent, InlineEditorComponent],
@@ -25,7 +26,8 @@ import {HttpInterceptorService} from "./service/http-interceptor/http-intercepto
     HttpClientModule, IonicStorageModule.forRoot(),
     HomePageModule,
     MainPageModule,
-    LoginPageModule
+    LoginPageModule,
+    BindPageModule
   ],
   providers: [
     StatusBar,

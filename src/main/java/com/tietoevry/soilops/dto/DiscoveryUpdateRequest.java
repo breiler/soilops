@@ -5,15 +5,9 @@ import lombok.Data;
 
 @Data
 public class DiscoveryUpdateRequest {
-    @ApiModelProperty(required = true)
-    private String placeUuid;
-
-    /**
-     * The pin code of the device to be registered
-     */
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(value = "A one time pin code for binding the device to a users", required = true)
     private String pin;
 
-    @ApiModelProperty(required = false)
+    @ApiModelProperty(value = "A optional name of the device", required = false)
     private String name;
 }

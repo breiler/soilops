@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register device</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true">
+  <ion-card padding="true">
+    <ion-card-header>
+      <ion-card-title>Register a new device</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-label *ngIf="error" color="danger"><ion-icon name="alert-outline"></ion-icon> {{error}}</ion-label>
+      <ion-item>
+        <ion-label position="stacked">Device pin code</ion-label>
+        <ion-input type="text" [(ngModel)]="pin"></ion-input>
+      </ion-item>
+      <ion-button (click)="bind()">Register</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

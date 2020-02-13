@@ -30,6 +30,9 @@ public class Device implements Serializable {
     private LocalDateTime created;
 
     @ManyToOne
+    private User user;
+
+    @ManyToOne
     private Place place;
 
     @OneToMany(mappedBy = "device")

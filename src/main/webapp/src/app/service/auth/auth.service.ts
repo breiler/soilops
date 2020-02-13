@@ -20,11 +20,11 @@ export class AuthService {
   private user: User;
   private token: string;
   private authenticatedSubject: BehaviorSubject<boolean>;
-  private authenticated: Observable<boolean>;
+  private authenticatedObserver: Observable<boolean>;
 
-  constructor(private  httpClient: HttpClient, private router: Router) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.authenticatedSubject = new BehaviorSubject<boolean>(false);
-    this.authenticated = this.authenticatedSubject.asObservable();
+    this.authenticatedObserver = this.authenticatedSubject.asObservable();
   }
 
   /**
@@ -33,7 +33,12 @@ export class AuthService {
   public isAuthenticated(): Observable<boolean> {
     const token = localStorage.getItem('token');
     if (token !== null) {
-      this.authenticatedSubject.next(!new JwtHelperService().isTokenExpired(token));
+      try {
+        this.authenticatedSubject.next(!new JwtHelperService().isTokenExpired(token));
+      } catch (error) {
+        localStorage.removeItem('token');
+        this.router.navigateByUrl("/login");
+      }
     } else {
       this.httpClient.get(`${this.endpoint}`)
         .subscribe((res: AuthResponse) => {
@@ -43,6 +48,6 @@ export class AuthService {
         });
     }
 
-    return this.authenticated;
+    return this.authenticatedObserver;
   }
 }

@@ -34,14 +34,17 @@ public class DeviceService {
         this.observationRepository = observationRepository;
     }
 
-    public Device create(String username, String placeUuid, Device device) {
+    public Device create(String username, Device device) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Couldn't find user " + username));
-        Place place = placeRepository.findByUuidAndUserId(placeUuid, user.getId());
+
         device.setId(null);
         device.setCreated(LocalDateTime.now());
-        device.setPlace(place);
+        device.setUser(user);
         device.setUuid(UUID.randomUUID().toString());
-        device.setKey(RandomStringUtils.randomAlphanumeric(30));
+
+        if (StringUtils.isEmpty(device.getKey())) {
+            device.setKey(RandomStringUtils.randomAlphanumeric(30));
+        }
         if (StringUtils.isEmpty(device.getName())) {
             device.setName(nameGeneratorService.generate());
         }
@@ -51,10 +54,6 @@ public class DeviceService {
 
     public List<Device> getDevices(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Couldn't find user " + username));
-        Iterable<Place> places = placeRepository.findAllByUserId(user.getId());
-        return StreamSupport.stream(places.spliterator(), false)
-                .map(place -> deviceRepository.findAllByPlaceId(place.getId()))
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+        return deviceRepository.findAllByUserId(user.getId());
     }
 }

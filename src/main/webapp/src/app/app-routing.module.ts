@@ -4,6 +4,7 @@ import {MainPage} from "./pages/main/main.page";
 import {HomePage} from "./pages/home/home.page";
 import {LoginPage} from "./pages/login/login.page";
 import {AuthGuardService} from "./service/auth-guard/auth-guard.service";
+import {BindPage} from "./pages/bind/bind.page";
 
 const routes: Routes = [
   {
@@ -15,7 +16,12 @@ const routes: Routes = [
   {
     path: 'login', component: LoginPage
   },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'bind', component: BindPage, canActivate: [AuthGuardService]
+  },
+  {
+    path: '**', redirectTo: ''
+  }
 ];
 
 @NgModule({

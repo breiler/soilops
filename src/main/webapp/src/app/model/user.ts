@@ -1,4 +1,5 @@
 export class User {
   username: string;
-  token: string
+  name: string
+  imageUrl: string
 }

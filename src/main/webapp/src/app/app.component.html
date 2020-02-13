@@ -1,3 +1,26 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+    <!--  our side menu  -->
+    <ion-menu side="start" contentId="main">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-menu-toggle auto-hide="true">
+            <ion-item routerLink="/">
+              <ion-icon name="wifi" slot="start"></ion-icon>
+              Devices
+            </ion-item>
+            <ion-item routerLink="/bind">
+              <ion-icon name="add" slot="start"></ion-icon>
+              Register device
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>
