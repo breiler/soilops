@@ -50,4 +50,11 @@ export class AuthService {
 
     return this.authenticatedObserver;
   }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigateByUrl("/");
+    this.httpClient.get("/api/logout").subscribe();
+    this.authenticatedSubject.next(false);
+  }
 }

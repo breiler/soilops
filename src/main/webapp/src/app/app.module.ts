@@ -18,6 +18,8 @@ import {LoginPageModule} from "./pages/login/login.module";
 import {AuthGuardService} from "./service/auth-guard/auth-guard.service";
 import {HttpInterceptorService} from "./service/http-interceptor/http-interceptor.service";
 import {BindPageModule} from "./pages/bind/bind.module";
+import {LogoutPage} from "./pages/logout/logout.page";
+import {LogoutPageModule} from "./pages/logout/logout.module";
 
 @NgModule({
   declarations: [AppComponent, InlineEditorComponent],
@@ -27,7 +29,8 @@ import {BindPageModule} from "./pages/bind/bind.module";
     HomePageModule,
     MainPageModule,
     LoginPageModule,
-    BindPageModule
+    BindPageModule,
+    LogoutPageModule
   ],
   providers: [
     StatusBar,

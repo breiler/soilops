@@ -5,7 +5,6 @@ import com.google.common.cache.CacheBuilder;
 import com.tietoevry.soilops.dto.DiscoveryResponse;
 import com.tietoevry.soilops.model.Device;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;

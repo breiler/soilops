@@ -5,6 +5,7 @@ import {HomePage} from "./pages/home/home.page";
 import {LoginPage} from "./pages/login/login.page";
 import {AuthGuardService} from "./service/auth-guard/auth-guard.service";
 import {BindPage} from "./pages/bind/bind.page";
+import {LogoutPage} from "./pages/logout/logout.page";
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
   },
   {
     path: 'bind', component: BindPage, canActivate: [AuthGuardService]
+  },
+  {
+    path: 'logout', component: LogoutPage
   },
   {
     path: '**', redirectTo: ''

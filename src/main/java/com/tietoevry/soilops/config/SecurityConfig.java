@@ -85,6 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.formLogin().disable();
         http.httpBasic().disable();
+        http.logout().logoutUrl("/api/logout");
         http.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint());
 
         http.authorizeRequests()
@@ -99,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/csrf", "/auth/**", "/oauth2/**", "/login/**", "/webjars/**", "index.html").permitAll()
+                .antMatchers("/csrf", "/auth/**", "/oauth2/**", "/login/**", "/logout", "/webjars/**", "index.html").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",

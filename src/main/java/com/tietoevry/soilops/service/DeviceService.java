@@ -45,6 +45,7 @@ public class DeviceService {
         if (StringUtils.isEmpty(device.getKey())) {
             device.setKey(RandomStringUtils.randomAlphanumeric(30));
         }
+
         if (StringUtils.isEmpty(device.getName())) {
             device.setName(nameGeneratorService.generate());
         }
