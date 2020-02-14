@@ -1,34 +1,35 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {Device} from "../../model/device";
 import {map, tap} from "rxjs/operators";
 import {RegisterRequest} from "../../model/register-request";
+import {User} from "../../model/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceService {
-  private deviceSubject: Subject<Device[]> = new Subject<Device[]>();
+  private devicesSubject: BehaviorSubject<Device[]>;
+  private devicesObserver: Observable<Device[]>;
 
   constructor(private httpClient: HttpClient) {
-
+    this.devicesSubject = new BehaviorSubject<Device[]>([]);
+    this.devicesObserver = this.devicesSubject.asObservable();
   }
 
   public getDevices(): Observable<Device[]> {
     const token = localStorage.getItem('token');
-    return this.httpClient.get("/api/devices", {
+    this.httpClient.get("/api/devices", {
       headers: {
         "Authorization": "Bearer " + token
       }
-    })
-      .pipe(
-        map((res: Device[]) => {
-          return res;
-        }),
-        tap((devices: Device[]) => {
-          this.deviceSubject.next(devices);
-        }));
+    }).subscribe((devices: Device[]) => {
+      this.devicesSubject.next(devices);
+
+    });
+
+    return this.devicesObserver;
   }
 
   public registerDevice(pin: string): Observable<Device> {
@@ -43,8 +44,8 @@ export class DeviceService {
     })
       .pipe(
         map((res: Device) => {
+          this.getDevices();
           return res;
         }));
   }
-
 }

@@ -17,7 +17,12 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid>
+  <div *ngIf="devices.length === 0">
+    <h2>No registered devices yet</h2>
+    <p>You can now turn on your device and start registering it <a routerLink="/bind">here</a>.</p>
+  </div>
+
+  <ion-grid *ngIf="devices.length > 0">
     <ion-card *ngFor="let device of devices">
       <ion-card-header>
         <ion-card-title>
