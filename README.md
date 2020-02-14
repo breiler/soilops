@@ -22,7 +22,7 @@ Soil sensor monitoring server
 
 ### Running 
 * Compile the software using `mvn clean install`
-* Run it using `java -jar target/soilops-0.0.1-SNAPSHOT-exec.jar -Dspring.config.location=application.yml`
+* Run it using `java -jar target/soilops-0.0.1-SNAPSHOT-exec.jar`
 * Go to http://localhost:8080/
 
 
