@@ -92,6 +92,7 @@ public class DeviceController {
                     ObservationCreateRequest observationDto) {
         ModelMapper modelMapper = new ModelMapper();
         Observation observation = modelMapper.map(observationDto, Observation.class);
+        observation.setUuid(uuid);
         observation = observationService.create(uuid, key, observation);
         return ResponseEntity.ok(modelMapper.map(observation, ObservationResponse.class));
     }

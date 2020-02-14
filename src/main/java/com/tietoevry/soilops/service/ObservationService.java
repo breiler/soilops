@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,15 +27,15 @@ public class ObservationService {
         this.eventBusWebSocketHandler = eventBusWebSocketHandler;
     }
 
-    public Observation create( String thingUuid, String thingKey, Observation observation) {
-        Device device = deviceRepository.findByUuid(thingUuid);
-        if(StringUtils.isEmpty(device.getKey()) || !StringUtils.equals(thingKey, device.getKey())) {
+    public Observation create(String deviceUuid, String deviceKey, Observation observation) {
+        Optional<Device> device = deviceRepository.findByUuid(deviceUuid);
+        if(!device.isPresent() || StringUtils.isEmpty(device.get().getKey()) || !StringUtils.equals(deviceKey, device.get().getKey())) {
             throw new AccessDeniedException("Not allowed to access thing with given key");
         }
 
         observation.setId(null);
         observation.setUuid(UUID.randomUUID().toString());
-        observation.setDevice(device);
+        observation.setDevice(device.get());
         observation.setCreated(LocalDateTime.now());
         observation = observationRepository.save(observation);
 
@@ -43,15 +44,15 @@ public class ObservationService {
     }
 
     public List<Observation> findAll(String username, String thingUuid) {
-        Device device = deviceRepository.findByUuid(thingUuid);
-        if(device == null) {
+        Optional<Device> device = deviceRepository.findByUuid(thingUuid);
+        if(!device.isPresent()) {
             throw new RuntimeException("Couldn't find resource");
         }
 
-        if (!device.getPlace().getUser().getUsername().equalsIgnoreCase(username)) {
+        if (!device.get().getPlace().getUser().getUsername().equalsIgnoreCase(username)) {
             throw new RuntimeException("Couldn't find thing " + thingUuid + " for user " + username);
         }
 
-        return observationRepository.findAllByDeviceId(device.getId(), Sort.by(Sort.Direction.DESC, "created"));
+        return observationRepository.findAllByDeviceId(device.get().getId(), Sort.by(Sort.Direction.DESC, "created"));
     }
 }

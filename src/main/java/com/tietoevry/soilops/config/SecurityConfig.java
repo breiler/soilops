@@ -100,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/csrf", "/auth/**", "/oauth2/**", "/login/**", "/logout", "/webjars/**", "index.html").permitAll()
+                .antMatchers("/actuator/**", "/csrf", "/auth/**", "/oauth2/**", "/login/**", "/logout", "/webjars/**", "index.html").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",

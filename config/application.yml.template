@@ -1,0 +1,10 @@
+security:
+  oauth2:
+    client:
+      registration:
+        github:
+          client-id: c03213601d7f62d0d382
+          client-secret:
+        google:
+          client-id: 41362502913-agvvbfifu45f5om68do15n16nhr0dje3.apps.googleusercontent.com
+          client-secret:

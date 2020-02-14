@@ -6,10 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface DeviceRepository extends CrudRepository<Device, Long> {
-    Device findByUuid(String deviceUuid);
+    Optional<Device> findByUuid(String uuid);
 
     List<Device> findAllByUserId(Long id);
 }

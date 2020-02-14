@@ -40,7 +40,10 @@ public class DeviceService {
         device.setId(null);
         device.setCreated(LocalDateTime.now());
         device.setUser(user);
-        device.setUuid(UUID.randomUUID().toString());
+
+        if( StringUtils.isEmpty(device.getUuid()) ) {
+            device.setUuid(UUID.randomUUID().toString());
+        }
 
         if (StringUtils.isEmpty(device.getKey())) {
             device.setKey(RandomStringUtils.randomAlphanumeric(30));
