@@ -180,8 +180,8 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v10.15.0</nodeVersion>
-                                    <npmVersion>6.4.1</npmVersion>
+                                    <nodeVersion>v12.16.1</nodeVersion>
+                                    <npmVersion>6.13.4</npmVersion>
                                 </configuration>
                             </execution>
                             <execution>
