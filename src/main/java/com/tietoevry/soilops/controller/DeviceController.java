@@ -57,12 +57,56 @@ public class DeviceController {
             @ApiIgnore
                     Principal principal,
             @RequestBody
-                    DeviceCreateRequest deviceDto) {
+                    DeviceCreateRequest deviceCreateRequest) {
 
         ModelMapper modelMapper = new ModelMapper();
-        Device device = modelMapper.map(deviceDto, Device.class);
+        Device device = modelMapper.map(deviceCreateRequest, Device.class);
         device = deviceService.create(principal.getName(), device);
         return ResponseEntity.ok(mapDevice(device));
+    }
+
+    @RolesAllowed({Roles.USER})
+    @RequestMapping(value = "/api/devices/{uuid}", method = RequestMethod.GET)
+    @ApiOperation(value = "Returns all registered devices for the authenticated user", response = DeviceResponse.class)
+    public ResponseEntity<DeviceResponse> getDevice(
+            @ApiIgnore
+                    Principal principal,
+            @PathVariable
+                    String uuid) {
+
+        Device devices = deviceService.getDevice(principal.getName(), uuid);
+        DeviceResponse result = mapDevice(devices);
+        return ResponseEntity.ok(result);
+    }
+
+
+    @RolesAllowed({Roles.USER})
+    @RequestMapping(value = "/api/devices/{uuid}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "Creates a new device")
+    public ResponseEntity<Void> deleteDevice(
+            @ApiIgnore
+                    Principal principal,
+            @PathVariable
+                    String uuid) {
+
+        deviceService.delete(principal.getName(), uuid);
+        return ResponseEntity.ok().build();
+    }
+
+    @RolesAllowed({Roles.USER})
+    @RequestMapping(value = "/api/devices/{uuid}", method = RequestMethod.PUT)
+    @ApiOperation(value = "Updates an existing device")
+    public ResponseEntity<DeviceResponse> updateDevice(
+            @ApiIgnore
+                    Principal principal,
+            @PathVariable
+                    String uuid,
+            @RequestBody
+                    DeviceUpdateRequest deviceUpdateRequest) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        Device device = deviceService.update(principal.getName(), uuid, deviceUpdateRequest);
+        return ResponseEntity.ok(modelMapper.map(device, DeviceResponse.class));
     }
 
     @RolesAllowed({Roles.USER})

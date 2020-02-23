@@ -16,6 +16,14 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.href = this.platformLocation.href.replace(this.platformLocation.pathname, '');
+    this.href = this.platformLocation.href;
+
+
+    this.route.queryParamMap.subscribe(params => {
+        let token = params.get('token');
+        if (token) {
+          this.authService.refreshAuth(token);
+        }
+    });
   }
 }

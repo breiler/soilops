@@ -17,4 +17,8 @@ public class SecurityProperties {
      */
     private long tokenTimeToLive;
 
+    /**
+     * The number of milliseconds for the short token to live (to be used for session transferring)
+     */
+    private long tokenShortTimeToLive;
 }

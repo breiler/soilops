@@ -6,8 +6,8 @@ spring:
   jpa:
     database-platform: com.tietoevry.soilops.config.SQLiteDialect
     hibernate.ddl-auto: none
-    show-sql: true
-    open-in-view: true
+    show-sql: false
+    open-in-view: on
 
   security:
     oauth2:
@@ -32,3 +32,4 @@ app:
   security:
     tokenSecret: MySecretToken
     tokenTimeToLive: 864000000
+    tokenShortTimeToLive: 60000

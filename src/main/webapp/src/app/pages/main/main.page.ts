@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DeviceService} from "../../service/device/device.service";
 import {Device} from "../../model/device";
-import * as moment from 'moment';
 import {UserService} from "../../service/user/user.service";
 import {Subscription} from "rxjs";
 import {User} from "../../model/user";
@@ -33,10 +32,6 @@ export class MainPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
     this.devicesSubscription.unsubscribe();
-  }
-
-  formatDateTime(created: string) {
-    return moment(created).fromNow();
   }
 
   doRefresh(event: any) {

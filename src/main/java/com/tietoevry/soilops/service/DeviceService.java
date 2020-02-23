@@ -1,5 +1,6 @@
 package com.tietoevry.soilops.service;
 
+import com.tietoevry.soilops.dto.DeviceUpdateRequest;
 import com.tietoevry.soilops.model.Place;
 import com.tietoevry.soilops.model.Device;
 import com.tietoevry.soilops.model.User;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -41,7 +43,7 @@ public class DeviceService {
         device.setCreated(LocalDateTime.now());
         device.setUser(user);
 
-        if( StringUtils.isEmpty(device.getUuid()) ) {
+        if (StringUtils.isEmpty(device.getUuid())) {
             device.setUuid(UUID.randomUUID().toString());
         }
 
@@ -59,5 +61,42 @@ public class DeviceService {
     public List<Device> getDevices(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Couldn't find user " + username));
         return deviceRepository.findAllByUserId(user.getId());
+    }
+
+    public void delete(String username, String uuid) {
+        Optional<Device> deviceOptional = deviceRepository.findByUuid(uuid);
+        deviceOptional.ifPresent(device -> {
+            if (!device.getUser().getUsername().equalsIgnoreCase(username)) {
+                throw new RuntimeException("Not the owner of the device");
+            }
+
+            deviceRepository.delete(device);
+        });
+    }
+
+    public Device update(String username, String uuid, DeviceUpdateRequest deviceUpdateRequest) {
+        Device device = deviceRepository.findByUuid(uuid)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+
+        if (!device.getUser().getUsername().equalsIgnoreCase(username)) {
+            throw new RuntimeException("Not the owner of the device");
+        }
+
+        if (StringUtils.isNotEmpty(deviceUpdateRequest.getName())) {
+            device.setName(deviceUpdateRequest.getName());
+        }
+
+        return deviceRepository.save(device);
+    }
+
+    public Device getDevice(String username, String uuid) {
+        Device device = deviceRepository.findByUuid(uuid)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+
+        if (!device.getUser().getUsername().equalsIgnoreCase(username)) {
+            throw new RuntimeException("Not the owner of the device");
+        }
+
+        return device;
     }
 }

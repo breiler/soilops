@@ -23,35 +23,8 @@
   </div>
 
   <ion-grid *ngIf="devices.length > 0">
-    <ion-card *ngFor="let device of devices">
-      <ion-card-header>
-        <ion-card-title>
-          {{device.name}}
-        </ion-card-title>
-        <ion-card-subtitle *ngIf="!device.latestObservation">
-          Created: {{formatDateTime(device.created)}}
-        </ion-card-subtitle>
-        <ion-card-subtitle *ngIf="device.latestObservation">
-          Last reported: {{formatDateTime(device.latestObservation.created)}}
-        </ion-card-subtitle>
-      </ion-card-header>
-
-      <ion-card-content *ngIf="device.latestObservation">
-        <ion-chip>
-          <ion-icon name="sunny"></ion-icon>
-          <ion-label>{{device.latestObservation.light}}%</ion-label>
-        </ion-chip>
-
-        <ion-chip>
-          <ion-icon name="water"></ion-icon>
-          <ion-label>{{device.latestObservation.moisture}}%</ion-label>
-        </ion-chip>
-
-        <ion-chip>
-          <ion-icon name="thermometer"></ion-icon>
-          <ion-label>{{device.latestObservation.temperature}}°C</ion-label>
-        </ion-chip>
-      </ion-card-content>
-    </ion-card>
+    <device *ngFor="let device of devices" [device]="device">
+      <ion-button [routerLink]="['/device', device.uuid]">Device details</ion-button>
+    </device>
   </ion-grid>
 </ion-content>

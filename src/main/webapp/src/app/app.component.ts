@@ -11,25 +11,6 @@ import {UserService} from "./service/user/user.service";
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  private appPages = [
-    {
-      title: 'Dashboard',
-      url: '/dashboard',
-      icon: 'home'
-    },
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    }
-  ];
-
-
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,

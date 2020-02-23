@@ -4,6 +4,7 @@ import com.tietoevry.soilops.security.SecurityProperties;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -23,6 +24,18 @@ public class TokenProvider {
     public String createToken(Principal principal) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + securityProperties.getTokenTimeToLive());
+
+        return Jwts.builder()
+                .setSubject(principal.getName())
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, securityProperties.getTokenSecret())
+                .compact();
+    }
+
+    public String createShortLivedToken(Principal principal) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + securityProperties.getTokenShortTimeToLive());
 
         return Jwts.builder()
                 .setSubject(principal.getName())
@@ -60,4 +73,5 @@ public class TokenProvider {
         }
         return false;
     }
+
 }

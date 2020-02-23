@@ -1,0 +1,35 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      <inline-editor [(value)]="device.name" (valueChange)="onChange()"></inline-editor>
+    </ion-card-title>
+    <ion-card-subtitle *ngIf="!device.latestObservation">
+      Created: {{formatDateTime(device.created)}}
+    </ion-card-subtitle>
+    <ion-card-subtitle *ngIf="device.latestObservation">
+      Last reported: {{formatDateTime(device.latestObservation.created)}}
+    </ion-card-subtitle>
+    <ion-card-subtitle>
+      <div *ngIf="device.latestObservation">
+        <ion-chip>
+          <ion-icon name="sunny"></ion-icon>
+          <ion-label>{{device.latestObservation.light}}%</ion-label>
+        </ion-chip>
+
+        <ion-chip>
+          <ion-icon name="water"></ion-icon>
+          <ion-label>{{device.latestObservation.moisture}}%</ion-label>
+        </ion-chip>
+
+        <ion-chip>
+          <ion-icon name="thermometer"></ion-icon>
+          <ion-label>{{device.latestObservation.temperature}}°C</ion-label>
+        </ion-chip>
+      </div>
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content >
+    <ng-content></ng-content>
+  </ion-card-content>
+</ion-card>

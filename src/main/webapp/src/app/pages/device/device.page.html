@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Device</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/" text="Back"></ion-back-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="device" padding="true">
+
+  <h2><inline-editor [(value)]="device.name" (valueChange)="onChange()"></inline-editor></h2>
+  <ion-card-subtitle *ngIf="!device.latestObservation">
+    Created: {{formatDateTime(device.created)}}
+  </ion-card-subtitle>
+  <ion-card-subtitle *ngIf="device.latestObservation">
+    Last reported: {{formatDateTime(device.latestObservation.created)}}
+  </ion-card-subtitle>
+
+  <graph [data]="statistics"></graph>
+</ion-content>

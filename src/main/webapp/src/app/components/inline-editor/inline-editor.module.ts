@@ -1,24 +1,24 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-
 import {IonicModule} from '@ionic/angular';
 
-import {MainPage} from './main.page';
 import {RouterModule} from "@angular/router";
-import {DeviceComponentModule} from "../../components/device/device.module";
+import {InlineEditorComponent} from "./inline-editor.component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule,
-    DeviceComponentModule
+    RouterModule
   ],
   declarations: [
-    MainPage
+    InlineEditorComponent
+  ],
+  exports: [
+    InlineEditorComponent
   ]
 })
-export class MainPageModule {
+export class InlineEditorComponentModule {
 }

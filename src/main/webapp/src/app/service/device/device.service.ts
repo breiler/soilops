@@ -48,4 +48,36 @@ export class DeviceService {
           return res;
         }));
   }
+
+  updateDevice(device: Device) {
+    const token = localStorage.getItem('token');
+    let updateDeviceRequest = {
+      uuid: device.uuid,
+      name: device.name
+    };
+
+    return this.httpClient.put("/api/devices/" + device.uuid, updateDeviceRequest, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
+      .pipe(
+        map((res: Device) => {
+          this.getDevices();
+          return res;
+        }));
+  }
+
+  getDevice(uuid: string) : Observable<Device> {
+    const token = localStorage.getItem('token');
+    return this.httpClient.get("/api/devices/" + uuid, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    }).pipe(
+      map((res:Device) => {
+        return res;
+      })
+    );
+  }
 }

@@ -11,26 +11,30 @@ import {AppRoutingModule} from './app-routing.module';
 
 import {IonicStorageModule} from '@ionic/storage';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {InlineEditorComponent} from "./components/inline-editor/inline-editor.component";
-import {HomePageModule} from "./pages/home/home.module";
 import {MainPageModule} from "./pages/main/main.module";
 import {LoginPageModule} from "./pages/login/login.module";
 import {AuthGuardService} from "./service/auth-guard/auth-guard.service";
 import {HttpInterceptorService} from "./service/http-interceptor/http-interceptor.service";
 import {BindPageModule} from "./pages/bind/bind.module";
-import {LogoutPage} from "./pages/logout/logout.page";
 import {LogoutPageModule} from "./pages/logout/logout.module";
+import {DevicePageModule} from "./pages/device/device.module";
+
 
 @NgModule({
-  declarations: [AppComponent, InlineEditorComponent],
+  declarations: [
+    AppComponent
+  ],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    HttpClientModule, IonicStorageModule.forRoot(),
-    HomePageModule,
+  imports: [BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot(),
     MainPageModule,
     LoginPageModule,
     BindPageModule,
-    LogoutPageModule
+    LogoutPageModule,
+    DevicePageModule
   ],
   providers: [
     StatusBar,
@@ -38,6 +42,9 @@ import {LogoutPageModule} from "./pages/logout/logout.module";
     AuthGuardService,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
+  ],
+  exports: [
+
   ],
   bootstrap: [AppComponent]
 })

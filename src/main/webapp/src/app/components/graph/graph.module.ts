@@ -1,24 +1,26 @@
-import {NgModule} from '@angular/core';
+import {Directive, ElementRef, NgModule, Renderer2, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-
 import {IonicModule} from '@ionic/angular';
 
-import {MainPage} from './main.page';
 import {RouterModule} from "@angular/router";
-import {DeviceComponentModule} from "../../components/device/device.module";
+import { GraphComponent} from "./graph.component";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule,
-    DeviceComponentModule
+    RouterModule
   ],
   declarations: [
-    MainPage
+    GraphComponent
+  ],
+  exports: [
+    GraphComponent
   ]
+
 })
-export class MainPageModule {
+export class GraphComponentModule {
+
 }
