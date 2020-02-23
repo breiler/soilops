@@ -20,7 +20,7 @@ jobs:
           java-version: 11
 
       - name: Build with Maven
-        run: mvn -B clean test package --file pom.xml
+        run: mvn -B -Pdocker-image clean test package dockerfile:push --file pom.xml
 
       - name: Package
         uses: marvinpinto/action-automatic-releases@latest
