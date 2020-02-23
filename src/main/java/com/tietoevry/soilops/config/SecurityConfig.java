@@ -108,7 +108,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login/**",
                         "/logout",
                         "/webjars/**",
-                        "index.html").permitAll()
+                        "/app/**",
+                        "/index.html").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
